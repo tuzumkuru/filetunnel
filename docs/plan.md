@@ -87,17 +87,17 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 **Goal:** A valid file selected on the sender is transferred to the receiver and downloaded automatically.
 
 ### Tasks
-- [ ] Sender: read selected file as `ArrayBuffer` via `FileReader.readAsArrayBuffer()`
-- [ ] Sender: send metadata JSON message `{ type: "meta", name, size, mime }`
-- [ ] Sender: send file `ArrayBuffer` over the data channel
-- [ ] Sender: compute SHA-256 via `crypto.subtle.digest` and send hash JSON `{ type: "hash", sha256 }`
-- [ ] Receiver: handle incoming `data` events — route by type (string → JSON, ArrayBuffer → file data)
-- [ ] Receiver: on meta message → display file name and size
-- [ ] Receiver: accumulate `ArrayBuffer` chunks into array
-- [ ] Receiver: on hash message → assemble full buffer, compute SHA-256, compare hashes
-- [ ] Receiver: on hash match → create `Blob`, trigger auto-download via hidden `<a>` click
-- [ ] Receiver: on hash mismatch → show integrity error, suppress download
-- [ ] chore: bump version to 0.4.0
+- [x] Sender: read selected file as `ArrayBuffer` via `FileReader.readAsArrayBuffer()`
+- [x] Sender: send metadata JSON message `{ type: "meta", name, size, mime }`
+- [x] Sender: send file `ArrayBuffer` over the data channel
+- [x] Sender: compute SHA-256 via `crypto.subtle.digest` and send hash JSON `{ type: "hash", sha256 }`
+- [x] Receiver: handle incoming `data` events — route by type (string → JSON, ArrayBuffer → file data)
+- [x] Receiver: on meta message → display file name and size
+- [x] Receiver: accumulate `ArrayBuffer` chunks into array
+- [x] Receiver: on hash message → assemble full buffer, compute SHA-256, compare hashes
+- [x] Receiver: on hash match → create `Blob`, trigger auto-download via hidden `<a>` click
+- [x] Receiver: on hash mismatch → show integrity error, suppress download
+- [x] chore: bump version to 0.4.0
 
 **Success criteria:** Selecting a valid file on the sender results in an automatic download on the receiver. SHA-256 of the downloaded file matches the original. Tested with PDF, DOCX, and JPG.
 
