@@ -1,0 +1,18 @@
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*Zone.Identifier
+
+# Environment
+.env
+.env.local
+
+# Framework (reference only, not copied to project)
+.sldc-framework/
