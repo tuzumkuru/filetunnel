@@ -25,9 +25,13 @@
 
 ```
 /
-├── index.html          # Application shell + all UI markup for both modes
-├── style.css           # All styles
-├── app.js              # All application logic (mode detection, PeerJS, transfer, QR, integrity)
+├── src/
+│   ├── index.html      # Application shell + all UI markup for both modes
+│   ├── style.css       # All styles
+│   └── app.js          # All application logic (mode detection, PeerJS, transfer, QR, integrity)
+├── .github/
+│   └── workflows/
+│       └── deploy.yml  # Copies src/ to gh-pages branch on push to main
 └── docs/
     ├── prd.md
     ├── architecture.md
@@ -37,7 +41,7 @@
         └── Gemini - Secure P2P File Sharing Via QR.md
 ```
 
-No build artefacts, no `node_modules`, no bundler. The three files (`index.html`, `style.css`, `app.js`) are the entire application.
+No build artefacts, no `node_modules`, no bundler. The three files in `src/` are the entire application. The deploy workflow is a plain file copy — not a build step.
 
 ---
 

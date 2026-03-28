@@ -39,12 +39,12 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 **Goal:** Bare HTML/CSS/JS files in place, CDN libraries loading, app opens in browser without errors.
 
 ### Tasks
-- [ ] Create `index.html` with both view containers (receiver, sender), hidden by default
-- [ ] Create `style.css` with base layout, typography, color tokens
-- [ ] Create `app.js` with mode detection only (`?peer=` check → show correct view)
-- [ ] Add PeerJS CDN script tag and confirm it loads without console errors
-- [ ] Add qrcode-generator CDN script tag and confirm it loads
-- [ ] chore: bump version to 0.1.0
+- [x] Create `index.html` with both view containers (receiver, sender), hidden by default
+- [x] Create `style.css` with base layout, typography, color tokens
+- [x] Create `app.js` with mode detection only (`?peer=` check → show correct view)
+- [x] Add PeerJS CDN script tag and confirm it loads without console errors
+- [x] Add qrcode-generator CDN script tag and confirm it loads
+- [x] chore: bump version to 0.1.0
 
 **Success criteria:** Opening `index.html` in a browser shows the receiver view (QR placeholder) with no console errors. Opening `index.html?peer=test` shows the sender view.
 
@@ -128,6 +128,7 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 - [ ] Verify no file data appears in browser DevTools Network tab during transfer
 - [ ] Verify page works correctly when served over HTTPS (not just `file://`)
 - [ ] Add `<meta>` tags: viewport, description, charset
+- [ ] Add `.github/workflows/deploy.yml` — copies `src/` to `gh-pages` branch on push to `main`
 - [ ] Write a minimal `README.md` explaining what the project is and how to deploy it
 - [ ] chore: bump version to 1.0.0
 

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Secure peer-to-peer file transfer via QR code. No server, no login.">
+  <meta name="version" content="0.1.0">
+  <title>QR File Drop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── Receiver View ─────────────────────────────────────────────── -->
+  <div id="view-receiver" class="view" hidden>
+    <h1>QR File Drop</h1>
+
+    <div id="receiver-init" class="card">
+      <div id="qr-container">
+        <canvas id="qr-canvas"></canvas>
+      </div>
+      <p class="instruction">Scan with your phone to send a file</p>
+      <p id="fallback-url-wrap" class="hint">
+        Or open: <a id="fallback-url" href="#" target="_blank" rel="noopener"></a>
+      </p>
+      <p id="receiver-status" class="status status--waiting">Connecting…</p>
+    </div>
+
+    <div id="receiver-transfer" class="card" hidden>
+      <p id="receiver-file-info" class="file-info"></p>
+      <div class="progress-wrap">
+        <progress id="receiver-progress" value="0" max="100"></progress>
+        <span id="receiver-percent" class="percent">0%</span>
+      </div>
+      <p id="receiver-transfer-status" class="status status--waiting">Receiving…</p>
+    </div>
+
+    <div id="receiver-done" class="card" hidden>
+      <p class="status status--success">&#10003; File received successfully</p>
+      <p id="receiver-hash-confirm" class="hint">File integrity verified (SHA-256)</p>
+      <button id="receiver-reset" class="btn">New transfer</button>
+    </div>
+
+    <div id="receiver-error" class="card" hidden>
+      <p id="receiver-error-msg" class="status status--error"></p>
+      <button id="receiver-regenerate" class="btn">Regenerate QR</button>
+    </div>
+  </div>
+
+  <!-- ── Sender View ───────────────────────────────────────────────── -->
+  <div id="view-sender" class="view" hidden>
+    <h1>QR File Drop</h1>
+
+    <div id="sender-connecting" class="card">
+      <div class="spinner"></div>
+      <p class="status status--waiting">Connecting to library computer…</p>
+    </div>
+
+    <div id="sender-ready" class="card" hidden>
+      <p class="status status--success">&#9679; Connected</p>
+      <label id="file-picker-label" class="btn btn--file">
+        Choose file
+        <input
+          type="file"
+          id="file-input"
+          accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png"
+        >
+      </label>
+      <p class="hint">
+        PDF, Word, Excel, PowerPoint, TXT, JPG, PNG<br>
+        Max 25 MB
+      </p>
+    </div>
+
+    <div id="sender-transfer" class="card" hidden>
+      <p id="sender-file-info" class="file-info"></p>
+      <div class="progress-wrap">
+        <progress id="sender-progress" value="0" max="100"></progress>
+        <span id="sender-percent" class="percent">0%</span>
+      </div>
+      <p class="status status--waiting">Sending…</p>
+    </div>
+
+    <div id="sender-done" class="card" hidden>
+      <p class="status status--success">&#10003; Sent!</p>
+      <p id="sender-file-name" class="file-info"></p>
+      <button id="sender-reset" class="btn">Send another</button>
+    </div>
+
+    <div id="sender-error" class="card" hidden>
+      <p id="sender-error-msg" class="status status--error"></p>
+    </div>
+  </div>
+
+  <!-- ── CDN Libraries ─────────────────────────────────────────────── -->
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script src="https://unpkg.com/qrcode-generator@1.4.4/qrcode.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
