@@ -2,7 +2,7 @@
 ## FileTunnel
 
 **Status:** In progress
-**Current version:** 0.6.0
+**Current version:** 0.6.1
 **Target release:** 1.0.0
 **Last updated:** 2026-03-28
 
@@ -137,12 +137,12 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 **Goal:** Add security messaging, about content, and useful links.
 
 ### Tasks
-- [ ] Add security blurb to receiver view: one-liner explaining direct encrypted transfer, with "Learn more" link
-- [ ] Add About page or modal: what FileTunnel is, how WebRTC P2P works, why it is secure
-- [ ] Add GitHub repository link (footer or header)
-- [ ] Add sponsor link — https://buymeacoffee.com/tuzumkuru (footer or about page)
-- [ ] Write modern README: badges, feature list, how it works, local setup, contribution guide
-- [ ] chore: bump version to 0.6.1
+- [x] Add security blurb to receiver view: one-liner explaining direct encrypted transfer, with "Learn more" link
+- [x] Add About page or modal: what FileTunnel is, how WebRTC P2P works, why it is secure
+- [x] Add GitHub repository link (footer or header)
+- [x] Add sponsor link — https://buymeacoffee.com/tuzumkuru (footer or about page)
+- [x] Write modern README: badges, feature list, how it works, local setup, contribution guide
+- [x] chore: bump version to 0.6.1
 
 **Success criteria:** Users understand what the app does and why it is safe without leaving the page. README ready for public release.
 

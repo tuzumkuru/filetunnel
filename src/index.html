@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Secure peer-to-peer file transfer via QR code. No server, no login.">
-  <meta name="version" content="0.6.0">
+  <meta name="version" content="0.6.1">
   <title>FileTunnel</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="style.css">
@@ -20,6 +20,10 @@
         <img id="qr-img" alt="QR Code">
       </div>
       <p class="instruction">Scan with your phone to send a file</p>
+      <p class="hint security-blurb">
+        &#128274; Your file travels directly to this device — no server sees it.
+        <button id="about-open" class="link-btn">Learn more</button>
+      </p>
       <p id="fallback-url-wrap" class="hint">
         Or open: <a id="fallback-url" href="#" target="_blank" rel="noopener"></a>
       </p>
@@ -45,6 +49,12 @@
       <p id="receiver-error-msg" class="status status--error"></p>
       <button id="receiver-regenerate" class="btn">Regenerate QR</button>
     </div>
+
+    <footer class="app-footer">
+      <a href="https://github.com/tuzumkuru/filetunnel" target="_blank" rel="noopener">GitHub</a>
+      <span class="footer-sep">·</span>
+      <a href="https://buymeacoffee.com/tuzumkuru" target="_blank" rel="noopener">Buy me a coffee</a>
+    </footer>
   </div>
 
   <!-- ── Sender View ───────────────────────────────────────────────── -->
@@ -90,6 +100,38 @@
 
     <div id="sender-error" class="card" hidden>
       <p id="sender-error-msg" class="status status--error"></p>
+    </div>
+
+    <footer class="app-footer">
+      <a href="https://github.com/tuzumkuru/filetunnel" target="_blank" rel="noopener">GitHub</a>
+      <span class="footer-sep">·</span>
+      <a href="https://buymeacoffee.com/tuzumkuru" target="_blank" rel="noopener">Buy me a coffee</a>
+    </footer>
+  </div>
+
+  <!-- ── About Modal ───────────────────────────────────────────────── -->
+  <div id="about-modal" class="modal-overlay" hidden>
+    <div class="modal-card">
+      <button id="about-close" class="modal-close" aria-label="Close">&times;</button>
+      <h2>How FileTunnel works</h2>
+
+      <p>FileTunnel lets you send a file from your phone to any nearby computer — instantly, with no account, no app, and no upload to a server.</p>
+
+      <h3>The transfer</h3>
+      <p>The computer shows a QR code. You scan it, pick a file, and it goes <strong>directly</strong> from your browser to the computer's browser over an encrypted peer-to-peer connection (WebRTC). The file never touches any server.</p>
+
+      <h3>Why it is secure</h3>
+      <ul>
+        <li><strong>End-to-end encrypted</strong> — WebRTC uses DTLS, the same encryption as HTTPS, for every transfer.</li>
+        <li><strong>No server storage</strong> — file bytes travel peer-to-peer; nothing is stored or logged anywhere.</li>
+        <li><strong>Integrity verified</strong> — a SHA-256 hash is computed before sending and checked on arrival. Any corruption or tampering is detected.</li>
+        <li><strong>Ephemeral session</strong> — the connection ID is generated fresh each time and discarded when the session ends.</li>
+      </ul>
+
+      <h3>Signaling</h3>
+      <p>To establish the connection, both browsers briefly exchange a small handshake message (no file data) via the PeerJS public signaling service. After that, the channel is direct and encrypted.</p>
+
+      <a href="https://github.com/tuzumkuru/filetunnel" target="_blank" rel="noopener" class="modal-link">View source on GitHub</a>
     </div>
   </div>
 

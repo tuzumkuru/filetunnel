@@ -1,7 +1,19 @@
-// FileTunnel — v0.6.0
+// FileTunnel — v0.6.1
 
 (function () {
   'use strict';
+
+  // ── About modal ─────────────────────────────────────────────────────
+  var modal = document.getElementById('about-modal');
+  document.getElementById('about-open').addEventListener('click', function () {
+    modal.removeAttribute('hidden');
+  });
+  document.getElementById('about-close').addEventListener('click', function () {
+    modal.setAttribute('hidden', '');
+  });
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) modal.setAttribute('hidden', '');
+  });
 
   var MAX_FILE_SIZE = 25 * 1024 * 1024; // 25 MB
   var CHUNK_SIZE    = 65536;            // 64 KB

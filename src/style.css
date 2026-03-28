@@ -182,9 +182,109 @@ progress::-moz-progress-bar      { background: var(--primary); border-radius: 99
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ── Footer ──────────────────────────────────────────────────────── */
+.app-footer {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.app-footer a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.app-footer a:hover { color: var(--primary); }
+
+.footer-sep { margin: 0 6px; }
+
+/* ── Link button (inline, unstyled) ──────────────────────────────── */
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--primary);
+  font-size: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* ── About modal ─────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  z-index: 100;
+}
+
+.modal-card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  padding: 32px 28px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-close:hover { color: var(--text); }
+
+.modal-card h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+  padding-right: 24px;
+}
+
+.modal-card h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 6px;
+}
+
+.modal-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.modal-card ul {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  padding-left: 20px;
+}
+
+.modal-link {
+  font-size: 0.85rem;
+  color: var(--primary);
+  margin-top: 4px;
+}
+
 /* ── Responsive (mobile sender) ──────────────────────────────────── */
 @media (max-width: 480px) {
   body { padding: 16px 12px; }
   .card { padding: 24px 16px; }
   #qr-canvas { width: 240px; height: 240px; }
+  .modal-card { padding: 24px 20px; }
 }
