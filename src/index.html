@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Secure peer-to-peer file transfer via QR code. No server, no login.">
-  <meta name="version" content="0.2.0">
+  <meta name="version" content="0.3.0">
   <title>QR File Drop</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -56,19 +56,20 @@
     </div>
 
     <div id="sender-ready" class="card" hidden>
-      <p class="status status--success">&#9679; Connected</p>
+      <p class="status status--success">Connected</p>
       <label id="file-picker-label" class="btn btn--file">
         Choose file
         <input
           type="file"
           id="file-input"
-          accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png"
+          accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.md,.jpg,.jpeg,.png"
         >
       </label>
       <p class="hint">
-        PDF, Word, Excel, PowerPoint, TXT, JPG, PNG<br>
+        PDF, Word, Excel, PowerPoint, TXT, MD, JPG, PNG<br>
         Max 25 MB
       </p>
+      <p id="sender-file-error" class="status status--error" hidden></p>
     </div>
 
     <div id="sender-transfer" class="card" hidden>

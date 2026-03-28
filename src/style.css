@@ -102,14 +102,6 @@ h1 {
 .status {
   font-size: 0.95rem;
   font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.status::before {
-  content: '●';
-  font-size: 0.7rem;
 }
 
 .status--waiting { color: var(--waiting); }

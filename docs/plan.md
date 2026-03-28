@@ -70,14 +70,14 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 **Goal:** Sender connects to the receiver peer and shows the validated file picker.
 
 ### Tasks
-- [ ] Initialise `Peer` on sender side and call `peer.connect(receiverId)`
-- [ ] Handle connection open → show file picker, hide spinner
-- [ ] Handle peer-not-found / connection error → show error message
-- [ ] Render file picker button with `accept` attribute (PDF, Word, Excel, PowerPoint, TXT, JPG, PNG)
-- [ ] On file selected: validate MIME type against allowlist → reject with error if invalid
-- [ ] On file selected: validate size ≤ 25MB → reject with error if too large
-- [ ] Show accepted file types and size limit as hint text below picker
-- [ ] chore: bump version to 0.3.0
+- [x] Initialise `Peer` on sender side and call `peer.connect(receiverId)`
+- [x] Handle connection open → show file picker, hide spinner
+- [x] Handle peer-not-found / connection error → show error message
+- [x] Render file picker button with `accept` attribute (PDF, Word, Excel, PowerPoint, TXT, JPG, PNG)
+- [x] On file selected: validate MIME type against allowlist → reject with error if invalid
+- [x] On file selected: validate size ≤ 25MB → reject with error if too large
+- [x] Show accepted file types and size limit as hint text below picker
+- [x] chore: bump version to 0.3.0
 
 **Success criteria:** Sender connects to a waiting receiver. File picker only accepts allowed types. Selecting a disallowed type or oversized file shows the correct error without crashing.
 
