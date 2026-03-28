@@ -1,6 +1,6 @@
 /* ── Color tokens ────────────────────────────────────────────────── */
 :root {
-  --bg:           #f9f9f9;
+  --bg:           #f4f6f9;
   --surface:      #ffffff;
   --primary:      #2563eb;
   --primary-dark: #1d4ed8;
@@ -10,7 +10,7 @@
   --text:         #111827;
   --text-muted:   #6b7280;
   --border:       #e5e7eb;
-  --radius-card:  12px;
+  --radius-card:  14px;
   --radius-btn:   8px;
 }
 
@@ -30,6 +30,64 @@ body {
   padding: 24px 16px;
 }
 
+/* ── Corner links ────────────────────────────────────────────────── */
+.corner-links {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.corner-link {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.corner-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+.corner-link:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.corner-link::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #1f2937;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 5px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.corner-link:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ── View & card ─────────────────────────────────────────────────── */
 .view {
   width: 100%;
@@ -40,11 +98,32 @@ body {
   gap: 20px;
 }
 
+/* ── App logo ────────────────────────────────────────────────────── */
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
 h1 {
   font-size: 1.4rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.tagline {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
 }
 
 .card {
@@ -58,6 +137,7 @@ h1 {
   align-items: center;
   gap: 16px;
   text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 
 /* ── QR code ─────────────────────────────────────────────────────── */
@@ -70,8 +150,8 @@ h1 {
 
 #qr-img {
   display: block;
-  width: 280px;
-  height: 280px;
+  width: 240px;
+  height: 240px;
   image-rendering: pixelated;
 }
 
@@ -118,7 +198,7 @@ h1 {
 
 progress {
   flex: 1;
-  height: 10px;
+  height: 8px;
   border-radius: 99px;
   overflow: hidden;
   appearance: none;
@@ -170,6 +250,17 @@ progress::-moz-progress-bar      { background: var(--primary); border-radius: 99
   font-size: 0;
 }
 
+/* ── Link button (inline, unstyled) ──────────────────────────────── */
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--primary);
+  font-size: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 /* ── Spinner ─────────────────────────────────────────────────────── */
 .spinner {
   width: 40px;
@@ -182,37 +273,11 @@ progress::-moz-progress-bar      { background: var(--primary); border-radius: 99
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── Footer ──────────────────────────────────────────────────────── */
-.app-footer {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-.app-footer a {
-  color: var(--text-muted);
-  text-decoration: none;
-}
-
-.app-footer a:hover { color: var(--primary); }
-
-.footer-sep { margin: 0 6px; }
-
-/* ── Link button (inline, unstyled) ──────────────────────────────── */
-.link-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  color: var(--primary);
-  font-size: inherit;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
 /* ── About modal ─────────────────────────────────────────────────── */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -232,6 +297,7 @@ progress::-moz-progress-bar      { background: var(--primary); border-radius: 99
   display: flex;
   flex-direction: column;
   gap: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
 }
 
 .modal-close {
@@ -250,7 +316,7 @@ progress::-moz-progress-bar      { background: var(--primary); border-radius: 99
 
 .modal-card h2 {
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
   padding-right: 24px;
 }
@@ -259,7 +325,7 @@ progress::-moz-progress-bar      { background: var(--primary); border-radius: 99
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--text);
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .modal-card p {
@@ -281,10 +347,10 @@ progress::-moz-progress-bar      { background: var(--primary); border-radius: 99
   margin-top: 4px;
 }
 
-/* ── Responsive (mobile sender) ──────────────────────────────────── */
+/* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 480px) {
   body { padding: 16px 12px; }
   .card { padding: 24px 16px; }
-  #qr-canvas { width: 240px; height: 240px; }
   .modal-card { padding: 24px 20px; }
+  .corner-links { top: 12px; right: 12px; }
 }
