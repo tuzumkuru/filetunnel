@@ -54,13 +54,13 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 **Goal:** Receiver connects to PeerJS, gets a peer ID, and renders a working QR code.
 
 ### Tasks
-- [ ] Initialise `Peer` on receiver side and handle `peer.on('open')`
-- [ ] On peer ID received, build the full sender URL (`<origin>?peer=<id>`)
-- [ ] Render the URL as a QR code onto the `<canvas>` element
-- [ ] Display the fallback URL as a clickable link below the QR code
-- [ ] Show "Waiting for connection…" status
-- [ ] Handle PeerJS connection error → show error message + regenerate button
-- [ ] chore: bump version to 0.2.0
+- [x] Initialise `Peer` on receiver side and handle `peer.on('open')`
+- [x] On peer ID received, build the full sender URL (`<origin>?peer=<id>`)
+- [x] Render the URL as a QR code onto the `<canvas>` element
+- [x] Display the fallback URL as a clickable link below the QR code
+- [x] Show "Waiting for connection…" status
+- [x] Handle PeerJS connection error → show error message + regenerate button
+- [x] chore: bump version to 0.2.0
 
 **Success criteria:** Opening the page shows a scannable QR code. Scanning it with a phone opens the correct sender URL. PeerJS error is handled gracefully.
 

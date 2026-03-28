@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Secure peer-to-peer file transfer via QR code. No server, no login.">
-  <meta name="version" content="0.1.0">
+  <meta name="version" content="0.2.0">
   <title>QR File Drop</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -16,7 +16,7 @@
 
     <div id="receiver-init" class="card">
       <div id="qr-container">
-        <canvas id="qr-canvas"></canvas>
+        <img id="qr-img" alt="QR Code">
       </div>
       <p class="instruction">Scan with your phone to send a file</p>
       <p id="fallback-url-wrap" class="hint">

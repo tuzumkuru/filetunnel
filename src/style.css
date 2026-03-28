@@ -68,10 +68,11 @@ h1 {
   display: inline-flex;
 }
 
-#qr-canvas {
+#qr-img {
   display: block;
   width: 280px;
   height: 280px;
+  image-rendering: pixelated;
 }
 
 /* ── Typography ──────────────────────────────────────────────────── */
