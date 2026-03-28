@@ -26,6 +26,10 @@ Priority labels: `[SHOULD]` high value · `[COULD]` nice-to-have · `[IDEA]` nee
 
 - `[COULD]` **SAS verification** — 4-digit Short Authentication String derived from both peers' DTLS fingerprints, displayed on both screens to confirm no MITM.
 
+## Known Glitches
+
+- `[SHOULD]` **QR broken-image flash** — while PeerJS is connecting, the `<img id="qr-img">` has no `src` and shows a broken-image icon for ~1 second. Fix: hide the img until the QR is ready (show a spinner or placeholder instead), then reveal it once `qr.createDataURL()` is called.
+
 ## Infrastructure
 
 - `[COULD]` **Custom domain** — point a domain at the GitHub Pages deployment.

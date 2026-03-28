@@ -120,6 +120,19 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 
 ---
 
+## v0.6.0 — Backlog Review & Pre-release Fixes
+**Goal:** Review `docs/backlog.md`, agree on which items to fix before release, then implement them. Tasks for this version are defined at the time we reach it — not before.
+
+### Tasks
+- [ ] Review docs/backlog.md together — triage each item (fix now / defer)
+- [ ] Define and agree on the task list for this version based on triage
+- [ ] Implement agreed items (may result in additional sub-versions v0.6.1, v0.6.2, etc.)
+- [ ] chore: bump version to 0.6.0
+
+**Success criteria:** All agreed backlog items resolved. No outstanding `[SHOULD]` glitches remaining before release.
+
+---
+
 ## v1.0.0 — Release
 **Goal:** Production-ready. Deployed to static hosting. All acceptance criteria from prd.md met.
 
