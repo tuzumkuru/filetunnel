@@ -1,10 +1,10 @@
-// QR File Drop — v0.4.0
+// QR File Drop — v0.5.0
 
 (function () {
   'use strict';
 
-  var MAX_FILE_SIZE  = 25 * 1024 * 1024; // 25 MB
-  var CHUNK_SIZE     = 65536;            // 64 KB — safe for all browsers
+  var MAX_FILE_SIZE = 25 * 1024 * 1024; // 25 MB
+  var CHUNK_SIZE    = 65536;            // 64 KB
 
   var ALLOWED_MIME_TYPES = [
     'application/pdf',
@@ -21,7 +21,6 @@
     'image/png'
   ];
 
-  // .md files are reported as empty / octet-stream on some OS — allow by extension
   var ALLOWED_EXTENSIONS = ['md'];
 
   function isAllowedFile(file) {
@@ -45,10 +44,11 @@
 
   // ── Receiver ────────────────────────────────────────────────────────
   function initReceiver() {
-    var peer       = new Peer();
-    var activeConn = null;
-    var meta       = null;
-    var chunks     = [];
+    var peer          = new Peer();
+    var activeConn    = null;
+    var meta          = null;
+    var chunks        = [];
+    var bytesReceived = 0;
 
     peer.on('open', function (id) {
       var url = window.location.origin
@@ -58,7 +58,7 @@
       var fallbackEl = document.getElementById('fallback-url');
       fallbackEl.href        = url;
       fallbackEl.textContent = url;
-      document.getElementById('receiver-status').textContent = 'Waiting for connection…';
+      setReceiverStatus('Waiting for connection…', 'waiting');
     });
 
     peer.on('disconnected', function () {
@@ -74,17 +74,30 @@
     peer.on('connection', function (conn) {
       activeConn = conn;
 
+      conn.on('open', function () {
+        setReceiverStatus('Connected — ready to receive', 'success');
+        conn.peerConnection.oniceconnectionstatechange = function () {
+          var state = conn.peerConnection.iceConnectionState;
+          if ((state === 'disconnected' || state === 'failed') && activeConn) {
+            activeConn = null;
+            setReceiverStatus('Waiting for connection…', 'waiting');
+          }
+        };
+      });
+
       conn.on('data', function (data) {
         if (typeof data === 'string') {
           var msg = JSON.parse(data);
 
           if (msg.type === 'meta') {
-            meta   = msg;
-            chunks = [];
+            meta          = msg;
+            chunks        = [];
+            bytesReceived = 0;
             hideReceiverCards();
             document.getElementById('receiver-transfer').removeAttribute('hidden');
             document.getElementById('receiver-file-info').textContent =
               msg.name + ' (' + formatSize(msg.size) + ')';
+            setProgress('receiver-progress', 'receiver-percent', 0);
 
           } else if (msg.type === 'hash') {
             receiveComplete(msg.sha256);
@@ -92,11 +105,15 @@
 
         } else if (data instanceof ArrayBuffer) {
           chunks.push(data);
+          bytesReceived += data.byteLength;
+          var pct = meta ? Math.min(100, Math.round(bytesReceived / meta.size * 100)) : 0;
+          setProgress('receiver-progress', 'receiver-percent', pct);
         }
       });
 
       conn.on('close', function () {
         activeConn = null;
+        setReceiverStatus('Waiting for connection…', 'waiting');
       });
     });
 
@@ -133,12 +150,17 @@
       });
     }
 
-    // "New transfer" — reset UI only; keep peer and connection alive
     document.getElementById('receiver-reset').addEventListener('click', function () {
-      meta   = null;
-      chunks = [];
+      meta          = null;
+      chunks        = [];
+      bytesReceived = 0;
       hideReceiverCards();
       document.getElementById('receiver-init').removeAttribute('hidden');
+      if (activeConn) {
+        setReceiverStatus('Connected — ready to receive', 'success');
+      } else {
+        setReceiverStatus('Waiting for connection…', 'waiting');
+      }
     });
 
     document.getElementById('receiver-regenerate').addEventListener('click', function () {
@@ -170,7 +192,6 @@
       }
     });
 
-    // Set up file input once — handler reused across "Send another" resets
     document.getElementById('file-input').addEventListener('change', function (e) {
       var file = e.target.files[0];
       if (!file) return;
@@ -188,12 +209,10 @@
       sendFile(file);
     });
 
-    // "Send another" — reset to file picker without reloading
     document.getElementById('sender-reset').addEventListener('click', function () {
       document.getElementById('file-input').value = '';
       document.getElementById('sender-file-error').setAttribute('hidden', '');
-      hideSenderCards();
-      document.getElementById('sender-ready').removeAttribute('hidden');
+      showSenderReady();
     });
 
     function showSenderReady() {
@@ -206,28 +225,56 @@
       document.getElementById('sender-transfer').removeAttribute('hidden');
       document.getElementById('sender-file-info').textContent =
         file.name + ' (' + formatSize(file.size) + ')';
+      setProgress('sender-progress', 'sender-percent', 0);
+      document.getElementById('sender-transfer-status').textContent = 'Sending…';
 
       var reader    = new FileReader();
       reader.onload = function (e) {
         var buffer = e.target.result;
+        var total  = buffer.byteLength;
+        var offset = 0;
+        var paused = false;
 
-        crypto.subtle.digest('SHA-256', buffer).then(function (hashBuffer) {
-          var hashHex = bufferToHex(hashBuffer);
+        var dc = conn.dataChannel;
+        dc.bufferedAmountLowThreshold = CHUNK_SIZE;
 
-          conn.send(JSON.stringify({ type: 'meta', name: file.name, size: file.size, mime: file.type }));
+        function updateSenderProgress() {
+          var transmitted = Math.max(0, offset - dc.bufferedAmount);
+          var pct = total > 0 ? Math.min(99, Math.round(transmitted / total * 100)) : 0;
+          setProgress('sender-progress', 'sender-percent', pct);
+        }
 
-          // Send in 64 KB chunks — single large send exceeds browser limits
-          var offset = 0;
-          while (offset < buffer.byteLength) {
-            conn.send(buffer.slice(offset, offset + CHUNK_SIZE));
-            offset += CHUNK_SIZE;
+        crypto.subtle.digest('SHA-256', buffer).then(function (hb) {
+          var hashHex = bufferToHex(hb);
+
+          // Send remaining chunks; resume here after backpressure pause.
+          // Channel is reliable+ordered so hash arrives after all chunks.
+          function sendChunks() {
+            while (offset < buffer.byteLength) {
+              if (dc.bufferedAmount >= CHUNK_SIZE * 16) {
+                paused = true;
+                return;
+              }
+              conn.send(buffer.slice(offset, offset + CHUNK_SIZE));
+              offset += CHUNK_SIZE;
+              updateSenderProgress();
+            }
+            dc.onbufferedamountlow = null;
+            conn.send(JSON.stringify({ type: 'hash', sha256: hashHex }));
+            setProgress('sender-progress', 'sender-percent', 100);
+            hideSenderCards();
+            document.getElementById('sender-done').removeAttribute('hidden');
+            document.getElementById('sender-file-name').textContent =
+              document.getElementById('sender-file-info').textContent;
           }
 
-          conn.send(JSON.stringify({ type: 'hash', sha256: hashHex }));
+          dc.onbufferedamountlow = function () {
+            updateSenderProgress();
+            if (paused) { paused = false; sendChunks(); }
+          };
 
-          hideSenderCards();
-          document.getElementById('sender-done').removeAttribute('hidden');
-          document.getElementById('sender-file-name').textContent = file.name;
+          conn.send(JSON.stringify({ type: 'meta', name: file.name, size: file.size, mime: file.type }));
+          sendChunks();
         });
       };
       reader.readAsArrayBuffer(file);
@@ -240,6 +287,17 @@
     qr.addData(url);
     qr.make();
     document.getElementById('qr-img').src = qr.createDataURL(6, 2);
+  }
+
+  function setReceiverStatus(text, state) {
+    var el = document.getElementById('receiver-status');
+    el.textContent = text;
+    el.className   = 'status status--' + state;
+  }
+
+  function setProgress(progressId, percentId, pct) {
+    document.getElementById(progressId).value      = pct;
+    document.getElementById(percentId).textContent = pct + '%';
   }
 
   function showReceiverError(msg) {

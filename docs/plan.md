@@ -107,14 +107,14 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 **Goal:** Both sides show live transfer progress. All visual states match the design doc. App is usable on a real phone.
 
 ### Tasks
-- [ ] Receiver: track bytes received vs total (from meta); update `<progress>` and percent label
-- [ ] Sender: track bytes sent vs total; update `<progress>` and percent label
-- [ ] Implement all visual states per design.md: initialising, waiting, connected, transferring, done, error
-- [ ] Style all states with correct colors (success green, error red, waiting amber)
-- [ ] Implement "New transfer" / "Send another" button — destroys Peer, re-initialises without page reload
-- [ ] Verify sender view is fully usable at 375px width (no horizontal scroll, large tap targets)
-- [ ] Test on real devices: Chrome/Firefox desktop (receiver) + iOS Safari and Android Chrome (sender)
-- [ ] chore: bump version to 0.5.0
+- [x] Receiver: track bytes received vs total (from meta); update `<progress>` and percent label
+- [x] Sender: track bytes sent vs total; update `<progress>` and percent label
+- [x] Implement all visual states per design.md: initialising, waiting, connected, transferring, done, error
+- [x] Style all states with correct colors (success green, error red, waiting amber)
+- [x] Implement "New transfer" / "Send another" button — destroys Peer, re-initialises without page reload
+- [x] Verify sender view is fully usable at 375px width (no horizontal scroll, large tap targets)
+- [x] Test on real devices: Chrome/Firefox desktop (receiver) + iOS Safari and Android Chrome (sender)
+- [x] chore: bump version to 0.5.0
 
 **Success criteria:** Progress bar updates smoothly during transfer. All error and success states display correctly. Full end-to-end transfer works on a real phone scanning a real QR code.
 
