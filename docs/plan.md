@@ -1,8 +1,8 @@
 # Release Plan
 ## QR File Drop
 
-**Status:** Draft
-**Current version:** 0.0.0
+**Status:** In progress
+**Current version:** 0.5.0
 **Target release:** 1.0.0
 **Last updated:** 2026-03-28
 
@@ -120,16 +120,44 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 
 ---
 
-## v0.6.0 — Backlog Review & Pre-release Fixes
-**Goal:** Review `docs/backlog.md`, agree on which items to fix before release, then implement them. Tasks for this version are defined at the time we reach it — not before.
+## v0.6.0 — Rename & Branding
+**Goal:** Rename the project to FileTunnel and apply visual identity throughout.
 
 ### Tasks
-- [ ] Review docs/backlog.md together — triage each item (fix now / defer)
-- [ ] Define and agree on the task list for this version based on triage
-- [ ] Implement agreed items (may result in additional sub-versions v0.6.1, v0.6.2, etc.)
+- [ ] Rename all "QR File Drop" references to "FileTunnel" (page title, meta tags, app.js header, docs)
+- [ ] Apply FileTunnel color scheme and visual identity to style.css
+- [ ] Add favicon
 - [ ] chore: bump version to 0.6.0
 
-**Success criteria:** All agreed backlog items resolved. No outstanding `[SHOULD]` glitches remaining before release.
+**Success criteria:** App displays as "FileTunnel" in the browser tab and UI. Visual identity applied consistently across all pages and docs.
+
+---
+
+## v0.6.1 — About & Links
+**Goal:** Add security messaging, about content, and useful links.
+
+### Tasks
+- [ ] Add security blurb to receiver view: one-liner explaining direct encrypted transfer, with "Learn more" link
+- [ ] Add About page or modal: what FileTunnel is, how WebRTC P2P works, why it is secure
+- [ ] Add GitHub repository link (footer or header)
+- [ ] Add sponsor link — https://buymeacoffee.com/tuzumkuru (footer or about page)
+- [ ] Write modern README: badges, feature list, how it works, local setup, contribution guide
+- [ ] chore: bump version to 0.6.1
+
+**Success criteria:** Users understand what the app does and why it is safe without leaving the page. README ready for public release.
+
+---
+
+## v0.6.2 — Glitch Fixes
+**Goal:** Fix known UX glitches before release.
+
+### Tasks
+- [ ] Fix QR broken-image flash — hide `<img id="qr-img">` until QR is ready, show placeholder/spinner instead
+- [ ] Fix sender progress granularity — update in ~1% increments to match receiver
+- [ ] Implement heartbeat/ping — detect stale "Connected" state when either peer disappears, reset to waiting within ~5 seconds
+- [ ] chore: bump version to 0.6.2
+
+**Success criteria:** No broken-image flash on load. Sender and receiver progress bars update at similar granularity. Stale connection detected and reset within ~5 seconds.
 
 ---
 
@@ -140,9 +168,9 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 - [ ] Final review of all FRs and NFRs in prd.md — confirm each is met
 - [ ] Verify no file data appears in browser DevTools Network tab during transfer
 - [ ] Verify page works correctly when served over HTTPS (not just `file://`)
-- [ ] Add `<meta>` tags: viewport, description, charset
+- [x] Add `<meta>` tags: viewport, description, charset
 - [ ] Add `.github/workflows/deploy.yml` — copies `src/` to `gh-pages` branch on push to `main`
-- [ ] Write a minimal `README.md` explaining what the project is and how to deploy it
+- [ ] Configure custom domain: filetunnel.app (CNAME file + GitHub Pages settings)
 - [ ] chore: bump version to 1.0.0
 
 ### Release Criteria
@@ -152,10 +180,10 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 - [ ] Zero file bytes transmitted to any server (verified via DevTools)
 - [ ] Deployable by dropping three files onto any static host
 
-**Success criteria:** A user with no technical knowledge can scan the QR, pick a file, and have it download on the library computer within 30 seconds.
+**Success criteria:** A user with no technical knowledge can scan the QR, pick a file, and have it download on the other device within 30 seconds.
 
 ---
 
 ## Backlog
 
-See [docs/backlog.md](backlog.md) for unscheduled items (large file chunking, QWBP signaling, multi-file, PWA, TURN support).
+See [docs/backlog.md](backlog.md) for post-release items (large file support, TURN, multi-file, PWA, QWBP).
