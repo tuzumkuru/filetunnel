@@ -1,4 +1,4 @@
-// QR File Drop — v0.5.0
+// FileTunnel — v0.6.0
 
 (function () {
   'use strict';

@@ -1,5 +1,5 @@
 # Design
-## QR File Drop
+## FileTunnel
 
 **Status:** Draft
 **Version:** 0.1.0
@@ -46,7 +46,7 @@ The receiver view is designed for a desktop browser at a library terminal. Cente
 ```
 ┌─────────────────────────────────────────┐
 │                                         │
-│           QR File Drop                  │  ← app name, small
+│           FileTunnel                  │  ← app name, small
 │                                         │
 │   ┌─────────────────────────────────┐   │
 │   │                                 │   │
@@ -67,7 +67,7 @@ The receiver view is designed for a desktop browser at a library terminal. Cente
 ```
 ┌─────────────────────────────────────────┐
 │                                         │
-│           QR File Drop                  │
+│           FileTunnel                  │
 │                                         │
 │   Receiving: resume.pdf (240 KB)        │  ← file name + size
 │                                         │
@@ -82,7 +82,7 @@ The receiver view is designed for a desktop browser at a library terminal. Cente
 ```
 ┌─────────────────────────────────────────┐
 │                                         │
-│           QR File Drop                  │
+│           FileTunnel                  │
 │                                         │
 │   ✓ resume.pdf received successfully    │  ← success message
 │   File integrity verified (SHA-256)     │  ← hash confirmation
@@ -102,7 +102,7 @@ The sender view is designed for a phone screen (minimum 375px wide). Single-colu
 ```
 ┌─────────────────────┐
 │                     │
-│    QR File Drop     │
+│    FileTunnel     │
 │                     │
 │  Connecting to      │
 │  library computer…  │
@@ -116,7 +116,7 @@ The sender view is designed for a phone screen (minimum 375px wide). Single-colu
 ```
 ┌─────────────────────┐
 │                     │
-│    QR File Drop     │
+│    FileTunnel     │
 │                     │
 │  ● Connected        │
 │                     │
@@ -136,7 +136,7 @@ The sender view is designed for a phone screen (minimum 375px wide). Single-colu
 ```
 ┌─────────────────────┐
 │                     │
-│    QR File Drop     │
+│    FileTunnel     │
 │                     │
 │  Sending:           │
 │  resume.pdf         │
@@ -153,7 +153,7 @@ The sender view is designed for a phone screen (minimum 375px wide). Single-colu
 ```
 ┌─────────────────────┐
 │                     │
-│    QR File Drop     │
+│    FileTunnel     │
 │                     │
 │  ✓ Sent!            │
 │  resume.pdf         │
@@ -183,7 +183,7 @@ The sender view is designed for a phone screen (minimum 375px wide). Single-colu
 
 | Component | Element | Views | Notes |
 |---|---|---|---|
-| App title | `<h1>` | Both | "QR File Drop" |
+| App title | `<h1>` | Both | "FileTunnel" |
 | QR code canvas | `<canvas>` | Receiver | Rendered by qrcode-generator |
 | Fallback URL | `<a>` | Receiver | Full sender URL, opens in new tab |
 | Status indicator | `<p class="status">` | Both | Prefixed with colored dot (●) |

@@ -1,5 +1,5 @@
 # Architecture
-## QR File Drop
+## FileTunnel
 
 **Status:** Draft
 **Version:** 0.1.0

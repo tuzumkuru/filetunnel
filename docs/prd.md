@@ -1,5 +1,5 @@
 # Product Requirements Document (PRD)
-## QR File Drop
+## FileTunnel
 
 **Status:** Draft
 **Version:** 0.1.0
@@ -11,7 +11,7 @@
 
 Using a public computer (e.g. a library printing station) to access a personal file is a significant security risk. The conventional approach — logging into an email or cloud storage account — exposes credentials to keyloggers, leaves active browser sessions behind, and stores files on third-party servers. Physical USB drives introduce "badUSB" risks. Neither option is acceptable for a security-conscious user.
 
-QR File Drop solves this by enabling a direct, browser-to-browser file transfer triggered by a QR code scan. The library computer displays a QR code; the user scans it on their phone; the file travels directly from the phone to the library computer via an encrypted peer-to-peer channel. No credentials are entered on the public computer, no file data touches any server, and no session persists after the transfer.
+FileTunnel solves this by enabling a direct, browser-to-browser file transfer triggered by a QR code scan. The library computer displays a QR code; the user scans it on their phone; the file travels directly from the phone to the library computer via an encrypted peer-to-peer channel. No credentials are entered on the public computer, no file data touches any server, and no session persists after the transfer.
 
 Success for this version means: a user can scan a QR code, select a file, and have it available for download on the library computer in under 30 seconds — without installing any app, creating any account, or touching a server.
 

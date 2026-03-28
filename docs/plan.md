@@ -1,8 +1,8 @@
 # Release Plan
-## QR File Drop
+## FileTunnel
 
 **Status:** In progress
-**Current version:** 0.5.0
+**Current version:** 0.6.0
 **Target release:** 1.0.0
 **Last updated:** 2026-03-28
 
@@ -124,10 +124,10 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 **Goal:** Rename the project to FileTunnel and apply visual identity throughout.
 
 ### Tasks
-- [ ] Rename all "QR File Drop" references to "FileTunnel" (page title, meta tags, app.js header, docs)
-- [ ] Apply FileTunnel color scheme and visual identity to style.css
-- [ ] Add favicon
-- [ ] chore: bump version to 0.6.0
+- [x] Rename all "QR File Drop" references to "FileTunnel" (page title, meta tags, app.js header, docs)
+- [x] Apply FileTunnel color scheme and visual identity to style.css
+- [x] Add favicon
+- [x] chore: bump version to 0.6.0
 
 **Success criteria:** App displays as "FileTunnel" in the browser tab and UI. Visual identity applied consistently across all pages and docs.
 
