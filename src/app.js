@@ -1,4 +1,4 @@
-// FileTunnel — v0.6.1
+// FileTunnel — v0.6.2
 
 (function () {
   'use strict';
@@ -57,7 +57,7 @@
   // ── Receiver ────────────────────────────────────────────────────────
   function initReceiver() {
     var peer          = new Peer();
-    var activeConn    = null;
+    var activeConns   = new Set();
     var meta          = null;
     var chunks        = [];
     var bytesReceived = 0;
@@ -74,7 +74,7 @@
     });
 
     peer.on('disconnected', function () {
-      if (activeConn === null && !peer.destroyed) {
+      if (activeConns.size === 0 && !peer.destroyed) {
         peer.reconnect();
       }
     });
@@ -84,22 +84,39 @@
     });
 
     peer.on('connection', function (conn) {
-      activeConn = conn;
+      activeConns.add(conn);
+      var lastHeard = Date.now();
+      var watchdog  = null;
 
       conn.on('open', function () {
-        setReceiverStatus('Connected — ready to receive', 'success');
+        setReceiverStatus('Connected to peer — ready to receive!', 'success');
+        lastHeard = Date.now();
+        watchdog = setInterval(function () {
+          if (Date.now() - lastHeard > 5000) {
+            clearInterval(watchdog);
+            watchdog = null;
+            activeConns.delete(conn);
+            if (activeConns.size === 0) {
+              setReceiverStatus('Peer disconnected!', 'error');
+            }
+          }
+        }, 2000);
         conn.peerConnection.oniceconnectionstatechange = function () {
           var state = conn.peerConnection.iceConnectionState;
-          if ((state === 'disconnected' || state === 'failed') && activeConn) {
-            activeConn = null;
-            setReceiverStatus('Waiting for connection…', 'waiting');
+          if (state === 'disconnected' || state === 'failed') {
+            activeConns.delete(conn);
+            if (activeConns.size === 0) {
+              setReceiverStatus('Peer disconnected!', 'error');
+            }
           }
         };
       });
 
       conn.on('data', function (data) {
+        lastHeard = Date.now();
         if (typeof data === 'string') {
           var msg = JSON.parse(data);
+          if (msg.type === 'ping') return;
 
           if (msg.type === 'meta') {
             meta          = msg;
@@ -112,7 +129,7 @@
             setProgress('receiver-progress', 'receiver-percent', 0);
 
           } else if (msg.type === 'hash') {
-            receiveComplete(msg.sha256);
+            receiveComplete(msg.sha256, conn);
           }
 
         } else if (data instanceof ArrayBuffer) {
@@ -124,12 +141,15 @@
       });
 
       conn.on('close', function () {
-        activeConn = null;
-        setReceiverStatus('Waiting for connection…', 'waiting');
+        if (watchdog) { clearInterval(watchdog); watchdog = null; }
+        activeConns.delete(conn);
+        if (activeConns.size === 0) {
+          setReceiverStatus('Peer disconnected!', 'error');
+        }
       });
     });
 
-    function receiveComplete(senderHash) {
+    function receiveComplete(senderHash, conn) {
       var totalBytes = chunks.reduce(function (acc, c) { return acc + c.byteLength; }, 0);
       var assembled  = new Uint8Array(totalBytes);
       var offset     = 0;
@@ -157,6 +177,7 @@
         document.body.removeChild(anchor);
         URL.revokeObjectURL(url);
 
+        conn.send(JSON.stringify({ type: 'ack' }));
         hideReceiverCards();
         document.getElementById('receiver-done').removeAttribute('hidden');
       });
@@ -168,8 +189,8 @@
       bytesReceived = 0;
       hideReceiverCards();
       document.getElementById('receiver-init').removeAttribute('hidden');
-      if (activeConn) {
-        setReceiverStatus('Connected — ready to receive', 'success');
+      if (activeConns.size > 0) {
+        setReceiverStatus('Connected to peer — ready to receive!', 'success');
       } else {
         setReceiverStatus('Waiting for connection…', 'waiting');
       }
@@ -185,20 +206,59 @@
 
   // ── Sender ──────────────────────────────────────────────────────────
   function initSender(receiverId) {
-    var peer = new Peer();
-    var conn = null;
+    var peer         = new Peer();
+    var conn         = null;
+    var pingInterval = null;
+
+    function startPing() {
+      pingInterval = setInterval(function () {
+        if (conn && conn.open) {
+          try { conn.send(JSON.stringify({ type: 'ping' })); } catch (e) {}
+        }
+      }, 3000);
+    }
+
+    function stopPing() {
+      if (pingInterval) { clearInterval(pingInterval); pingInterval = null; }
+    }
 
     peer.on('open', function () {
       conn = peer.connect(receiverId, { reliable: true, serialization: 'raw' });
-      conn.on('open', showSenderReady);
+      conn.on('open', function () {
+        startPing();
+        conn.peerConnection.oniceconnectionstatechange = function () {
+          var state = conn.peerConnection.iceConnectionState;
+          if (state === 'disconnected' || state === 'failed') {
+            stopPing();
+            showSenderError('Connection lost. Please scan the QR code again to retry.');
+          }
+        };
+        showSenderReady();
+      });
+      conn.on('data', function (data) {
+        if (typeof data === 'string') {
+          var msg = JSON.parse(data);
+          if (msg.type === 'ack') {
+            hideSenderCards();
+            document.getElementById('sender-done').removeAttribute('hidden');
+            document.getElementById('sender-file-name').textContent =
+              document.getElementById('sender-file-info').textContent;
+          }
+        }
+      });
+      conn.on('close', function () {
+        stopPing();
+        showSenderError('Connection lost. Please scan the QR code again to retry.');
+      });
       conn.on('error', function () {
+        stopPing();
         showSenderError('Connection lost. Please scan the QR code again to retry.');
       });
     });
 
     peer.on('error', function (err) {
       if (err.type === 'peer-unavailable') {
-        showSenderError('Could not reach the library computer. The QR code may have expired — ask for a new one.');
+        showSenderError('Could not reach the other device. The QR code may have expired — please generate a new one.');
       } else {
         showSenderError('Connection failed. Check your internet connection and try again.');
       }
@@ -233,6 +293,7 @@
     }
 
     function sendFile(file) {
+      stopPing();
       hideSenderCards();
       document.getElementById('sender-transfer').removeAttribute('hidden');
       document.getElementById('sender-file-info').textContent =
@@ -251,8 +312,7 @@
         dc.bufferedAmountLowThreshold = CHUNK_SIZE;
 
         function updateSenderProgress() {
-          var transmitted = Math.max(0, offset - dc.bufferedAmount);
-          var pct = total > 0 ? Math.min(99, Math.round(transmitted / total * 100)) : 0;
+          var pct = total > 0 ? Math.min(99, Math.round(offset / total * 100)) : 0;
           setProgress('sender-progress', 'sender-percent', pct);
         }
 
@@ -274,10 +334,7 @@
             dc.onbufferedamountlow = null;
             conn.send(JSON.stringify({ type: 'hash', sha256: hashHex }));
             setProgress('sender-progress', 'sender-percent', 100);
-            hideSenderCards();
-            document.getElementById('sender-done').removeAttribute('hidden');
-            document.getElementById('sender-file-name').textContent =
-              document.getElementById('sender-file-info').textContent;
+            document.getElementById('sender-transfer-status').textContent = 'Verifying…';
           }
 
           dc.onbufferedamountlow = function () {
@@ -298,7 +355,10 @@
     var qr = qrcode(0, 'M');
     qr.addData(url);
     qr.make();
-    document.getElementById('qr-img').src = qr.createDataURL(6, 2);
+    var img = document.getElementById('qr-img');
+    img.src = qr.createDataURL(6, 2);
+    img.removeAttribute('hidden');
+    document.getElementById('qr-placeholder').setAttribute('hidden', '');
   }
 
   function setReceiverStatus(text, state) {

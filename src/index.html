@@ -4,51 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Secure peer-to-peer file transfer via QR code. No server, no login.">
-  <meta name="version" content="0.6.1">
+  <meta name="version" content="0.6.2">
   <title>FileTunnel</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ── Corner links ──────────────────────────────────────────────── -->
-  <div class="corner-links">
-    <a href="https://github.com/tuzumkuru/filetunnel" target="_blank" rel="noopener"
-       class="corner-link" data-tooltip="View on GitHub" aria-label="View on GitHub">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-      </svg>
-    </a>
-    <a href="https://buymeacoffee.com/tuzumkuru" target="_blank" rel="noopener"
-       class="corner-link" data-tooltip="Buy me a coffee" aria-label="Buy me a coffee">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M20 3H2v10a6 6 0 0012 0V8.83l.88 1.17H18a3 3 0 000-6h-2zm-2 4V5h2a1 1 0 010 2h-2zm-4 6a4 4 0 01-8 0V5h8v8zm-6 6h8l-1 2H9l-1-2z"/>
-      </svg>
-    </a>
-  </div>
-
   <!-- ── Receiver View ─────────────────────────────────────────────── -->
   <div id="view-receiver" class="view" hidden>
-    <div class="app-logo">
-      <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M5 12h14M13 6l6 6-6 6"/>
-        <rect x="2" y="7" width="7" height="10" rx="1.5"/>
-      </svg>
-      <div>
-        <h1>FileTunnel</h1>
-        <p class="tagline">Secure peer-to-peer file transfer</p>
+    <div class="view-header">
+      <div class="app-logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+          <rect x="2" y="7" width="7" height="10" rx="1.5"/>
+        </svg>
+        <div>
+          <h1>FileTunnel</h1>
+          <p class="tagline">Secure peer-to-peer file transfer</p>
+        </div>
+      </div>
+      <div class="header-links">
+        <a href="https://github.com/tuzumkuru/filetunnel" target="_blank" rel="noopener"
+           class="corner-link" data-tooltip="View on GitHub" aria-label="View on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+        </a>
+        <a href="https://buymeacoffee.com/tuzumkuru" target="_blank" rel="noopener"
+           class="corner-link" data-tooltip="Buy me a coffee" aria-label="Buy me a coffee">
+          <img src="https://cdn.buymeacoffee.com/assets/homepage/meta/apple-icon-120x120.png" alt="" class="bmc-icon">
+        </a>
       </div>
     </div>
 
     <div id="receiver-init" class="card">
       <div id="qr-container">
-        <img id="qr-img" alt="QR Code">
+        <div id="qr-placeholder" class="spinner"></div>
+        <img id="qr-img" alt="QR Code" hidden>
       </div>
-      <p class="instruction">Scan with your phone to send a file</p>
-      <p class="hint security-blurb">
-        &#128274; Direct encrypted transfer — no server sees your file.
-        <button id="about-open" class="link-btn">Learn more</button>
-      </p>
+      <p class="instruction">Scan with your camera to send a file</p>
       <p id="fallback-url-wrap" class="hint">
         Or open: <a id="fallback-url" href="#" target="_blank" rel="noopener"></a>
       </p>
@@ -74,18 +69,37 @@
       <p id="receiver-error-msg" class="status status--error"></p>
       <button id="receiver-regenerate" class="btn">Regenerate QR</button>
     </div>
+
+    <p class="security-blurb">
+      &#128274; Direct encrypted transfer — no server sees your file.
+      <button id="about-open" class="link-btn">Learn more</button>
+    </p>
   </div>
 
   <!-- ── Sender View ───────────────────────────────────────────────── -->
   <div id="view-sender" class="view" hidden>
-    <div class="app-logo">
-      <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M5 12h14M13 6l6 6-6 6"/>
-        <rect x="2" y="7" width="7" height="10" rx="1.5"/>
-      </svg>
-      <div>
-        <h1>FileTunnel</h1>
-        <p class="tagline">Secure peer-to-peer file transfer</p>
+    <div class="view-header">
+      <div class="app-logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+          <rect x="2" y="7" width="7" height="10" rx="1.5"/>
+        </svg>
+        <div>
+          <h1>FileTunnel</h1>
+          <p class="tagline">Secure peer-to-peer file transfer</p>
+        </div>
+      </div>
+      <div class="header-links">
+        <a href="https://github.com/tuzumkuru/filetunnel" target="_blank" rel="noopener"
+           class="corner-link" data-tooltip="View on GitHub" aria-label="View on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+        </a>
+        <a href="https://buymeacoffee.com/tuzumkuru" target="_blank" rel="noopener"
+           class="corner-link" data-tooltip="Buy me a coffee" aria-label="Buy me a coffee">
+          <img src="https://cdn.buymeacoffee.com/assets/homepage/meta/apple-icon-120x120.png" alt="" class="bmc-icon">
+        </a>
       </div>
     </div>
 
@@ -129,6 +143,11 @@
     <div id="sender-error" class="card" hidden>
       <p id="sender-error-msg" class="status status--error"></p>
     </div>
+
+    <p class="security-blurb">
+      &#128274; Direct encrypted transfer — no server sees your file.
+      <button id="about-open" class="link-btn">Learn more</button>
+    </p>
   </div>
 
   <!-- ── About Modal ───────────────────────────────────────────────── -->

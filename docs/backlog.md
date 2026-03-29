@@ -26,6 +26,10 @@ Priority labels: `[SHOULD]` high value · `[COULD]` nice-to-have · `[IDEA]` nee
 - `[SHOULD]` **Keep screen awake hint on sender** — target: post-v1.0.0. iOS Safari (and some Android browsers) drop the WebRTC connection when the screen dims or the user switches apps mid-transfer. Add a visible warning on the sender view to keep the screen on until transfer completes. Optionally use the Screen Wake Lock API where supported.
 - `[SHOULD]` **Subresource Integrity (SRI) for CDN scripts** — target: v1.0.0. Add `integrity` and `crossorigin` attributes to the PeerJS and qrcode-generator `<script>` tags. If the CDN is compromised, a modified script could silently exfiltrate the transferred file — SRI prevents execution of any script whose hash doesn't match.
 
+## Known Glitches
+
+- `[SHOULD]` **iOS sender: file opens in browser instead of downloading** — when the sender is on iPhone, the received file opens inline in the browser tab with no download option. Fix: ensure the `<a>` download trigger sets a `Content-Disposition: attachment` equivalent via Blob URL, and test that the filename and MIME type are set correctly so iOS Safari offers a save/share sheet instead of opening the file.
+
 ## Quality
 
 - `[COULD]` **SAS verification** — target: post-v1.0.0. 4-digit Short Authentication String derived from both peers' DTLS fingerprints, displayed on both screens to confirm no MITM.

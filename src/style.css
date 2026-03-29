@@ -30,14 +30,18 @@ body {
   padding: 24px 16px;
 }
 
-/* ── Corner links ────────────────────────────────────────────────── */
-.corner-links {
-  position: fixed;
-  top: 16px;
-  right: 16px;
+/* ── View header & links ─────────────────────────────────────────── */
+.view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-links {
   display: flex;
   gap: 8px;
-  z-index: 10;
+  flex-shrink: 0;
 }
 
 .corner-link {
@@ -58,6 +62,14 @@ body {
 .corner-link svg {
   width: 18px;
   height: 18px;
+}
+
+.bmc-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  display: block;
+  object-fit: cover;
 }
 
 .corner-link:hover {
@@ -146,6 +158,10 @@ h1 {
   border: 2px solid var(--primary);
   border-radius: 8px;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 264px;
+  height: 264px;
 }
 
 #qr-img {
@@ -169,7 +185,15 @@ h1 {
 
 .hint a {
   color: var(--primary);
-  word-break: break-all;
+}
+
+#fallback-url-wrap {
+  font-size: 0.75rem;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 1.3em;
 }
 
 .file-info {
@@ -345,6 +369,14 @@ progress::-moz-progress-bar      { background: var(--primary); border-radius: 99
   font-size: 0.85rem;
   color: var(--primary);
   margin-top: 4px;
+}
+
+/* ── Security blurb ──────────────────────────────────────────────── */
+.security-blurb {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+  width: 100%;
 }
 
 /* ── Responsive ──────────────────────────────────────────────────── */

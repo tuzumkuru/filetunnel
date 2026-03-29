@@ -2,7 +2,7 @@
 ## FileTunnel
 
 **Status:** In progress
-**Current version:** 0.6.1
+**Current version:** 0.6.2
 **Target release:** 1.0.0
 **Last updated:** 2026-03-28
 
@@ -152,10 +152,10 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 **Goal:** Fix known UX glitches before release.
 
 ### Tasks
-- [ ] Fix QR broken-image flash — hide `<img id="qr-img">` until QR is ready, show placeholder/spinner instead
-- [ ] Fix sender progress granularity — update in ~1% increments to match receiver
-- [ ] Implement heartbeat/ping — detect stale "Connected" state when either peer disappears, reset to waiting within ~5 seconds
-- [ ] chore: bump version to 0.6.2
+- [x] Fix QR broken-image flash — hide `<img id="qr-img">` until QR is ready, show placeholder/spinner instead
+- [x] Fix sender progress granularity — update in ~1% increments to match receiver
+- [x] Implement heartbeat/ping — detect stale "Connected" state when either peer disappears, reset to waiting within ~5 seconds
+- [x] chore: bump version to 0.6.2
 
 **Success criteria:** No broken-image flash on load. Sender and receiver progress bars update at similar granularity. Stale connection detected and reset within ~5 seconds.
 
