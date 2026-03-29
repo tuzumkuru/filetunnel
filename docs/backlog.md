@@ -18,6 +18,7 @@ Priority labels: `[SHOULD]` high value · `[COULD]` nice-to-have · `[IDEA]` nee
 - `[COULD]` **Multi-file transfer** — target: post-v1.0.0. Queue multiple files and send them in one session.
 - `[COULD]` **Drag-and-drop** — target: post-v1.0.0. Accept files via drag-and-drop on the sender page in addition to the file picker.
 - `[COULD]` **Transfer speed indicator** — target: post-v1.0.0. Show current throughput (MB/s) during transfer.
+- `[COULD]` **Total MB transferred analytics** — target: post-v1.0.0. Cloudflare Worker + KV to maintain a running total of bytes transferred across all sessions. Worker receives `{ bytes: n }` on each completed transfer; no user data or IPs stored. Pairs with existing Cloudflare Web Analytics setup.
 - `[COULD]` **PWA / Service Worker** — target: post-v1.0.0. Cache assets after first load for offline use.
 - `[IDEA]`  **QWBP / air-gapped signaling** — target: post-v1.0.0. Fully serverless "QR Tango" using compressed binary SDP (no PeerJS). Requires a camera on the receiver computer.
 - `[IDEA]`  **Private PeerJS server** — target: post-v1.0.0. Self-hosted signaling to remove dependency on `0.peerjs.com`.

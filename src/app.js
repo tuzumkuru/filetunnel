@@ -186,6 +186,7 @@
         URL.revokeObjectURL(url);
 
         conn.send(JSON.stringify({ type: 'ack' }));
+        try { if (window.cfBeacon) window.cfBeacon.push({ type: 'event', name: 'transfer_complete' }); } catch (e) {}
         hideReceiverCards();
         document.getElementById('receiver-done').removeAttribute('hidden');
       });
