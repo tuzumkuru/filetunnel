@@ -1,8 +1,8 @@
 # Release Plan
 ## FileTunnel
 
-**Status:** In progress
-**Current version:** 0.6.2
+**Status:** Released
+**Current version:** 1.0.0
 **Target release:** 1.0.0
 **Last updated:** 2026-03-28
 

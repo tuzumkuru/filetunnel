@@ -1,4 +1,4 @@
-// FileTunnel — v0.6.2
+// FileTunnel — v1.0.0
 
 (function () {
   'use strict';
