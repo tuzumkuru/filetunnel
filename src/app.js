@@ -3,6 +3,14 @@
 (function () {
   'use strict';
 
+  // ── Version ──────────────────────────────────────────────────────────
+  var versionMeta = document.querySelector('meta[name="version"]');
+  if (versionMeta) {
+    document.querySelectorAll('#app-version').forEach(function (el) {
+      el.textContent = 'v' + versionMeta.getAttribute('content');
+    });
+  }
+
   // ── About modal ─────────────────────────────────────────────────────
   var modal = document.getElementById('about-modal');
   document.getElementById('about-open').addEventListener('click', function () {

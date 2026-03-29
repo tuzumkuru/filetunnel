@@ -371,6 +371,18 @@ progress::-moz-progress-bar      { background: var(--primary); border-radius: 99
   margin-top: 4px;
 }
 
+/* ── Modal footer ────────────────────────────────────────────────── */
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#app-version {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
 /* ── Security blurb ──────────────────────────────────────────────── */
 .security-blurb {
   font-size: 0.78rem;
