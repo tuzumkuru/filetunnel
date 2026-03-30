@@ -69,8 +69,8 @@ Library computer (Receiver)                     User phone (Sender)
         │◄──── 5. JSON metadata message ───────────────►│
         │         { name, size, type }                  │
         │                                               │
-        │◄──── 6. ArrayBuffer (file data) ─────────────►│
-        │         (single send, ≤ 25MB)                 │
+        │◄──── 6. Binary chunks (file data) ────────────►│
+        │       (~64KB slices, ≤ 25MB total)            │
         │                                               │
         │◄──── 7. JSON hash message ────────────────────│
         │         { sha256: "<hex>" }                   │
@@ -102,7 +102,7 @@ Responsibilities (in execution order):
 
 1. **Mode detection** — reads `?peer=` from the URL. Present → sender mode. Absent → receiver mode.
 2. **PeerJS initialisation** — creates a `Peer` instance. Receiver uses a random ID; sender targets the receiver's ID.
-3. **QR generation** (receiver only) — encodes `<origin>?peer=<id>` as a QR code rendered to a `<canvas>`.
+3. **QR generation** (receiver only) — encodes `<origin>?peer=<id>` as a QR code rendered into an `<img>` data URL.
 4. **Connection handling** — receiver listens for `peer.on('connection')`; sender calls `peer.connect(receiverId)`.
 5. **Message protocol** — defines the three-message sequence: metadata JSON → file ArrayBuffer → hash JSON.
 6. **File reading** (sender) — uses `FileReader.readAsArrayBuffer()` to load the file into memory.

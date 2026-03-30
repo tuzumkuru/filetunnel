@@ -396,5 +396,5 @@ progress::-moz-progress-bar      { background: var(--primary); border-radius: 99
   body { padding: 16px 12px; }
   .card { padding: 24px 16px; }
   .modal-card { padding: 24px 20px; }
-  .corner-links { top: 12px; right: 12px; }
+  .header-links { gap: 6px; }
 }

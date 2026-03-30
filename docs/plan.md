@@ -1,7 +1,7 @@
 # Release Plan
 ## FileTunnel
 
-**Status:** Released
+**Status:** In progress
 **Current version:** 1.0.0
 **Target release:** 1.0.0
 **Last updated:** 2026-03-28
@@ -169,7 +169,7 @@ See [docs/backlog.md](backlog.md) for unscheduled items.
 - [ ] Verify no file data appears in browser DevTools Network tab during transfer
 - [ ] Verify page works correctly when served over HTTPS (not just `file://`)
 - [x] Add `<meta>` tags: viewport, description, charset
-- [ ] Add SRI hashes to CDN script tags (PeerJS, qrcode-generator) — `integrity` + `crossorigin` attributes
+- [x] Add SRI hashes to CDN script tags (PeerJS, qrcode-generator) — `integrity` + `crossorigin` attributes
 - [ ] Add `.github/workflows/deploy.yml` — copies `src/` to `gh-pages` branch on push to `main`
 - [ ] Configure custom domain: filetunnel.app (CNAME file + GitHub Pages settings)
 - [ ] chore: bump version to 1.0.0

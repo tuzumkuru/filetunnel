@@ -15,6 +15,7 @@ Priority labels: `[SHOULD]` high value · `[COULD]` nice-to-have · `[IDEA]` nee
 
 - `[SHOULD]` **TURN server support** — target: post-v1.0.0. Allow connections through symmetric NAT / corporate firewalls (e.g. phone on 5G). Requires a hosted or third-party TURN server. Note: file data passes through the relay but remains DTLS-encrypted end-to-end — the relay cannot read it.
 - `[SHOULD]` **Large file support (>25MB)** — target: post-v1.0.0. Streaming chunked transfer with `bufferedAmount` backpressure and File System Access API for writing directly to disk. Requires rework of FR-3 in prd.md.
+- `[COULD]` **Receiver memory optimization** — target: post-v1.0.0. Avoid double-buffer assembly for incoming chunks (current flow stores chunk array, then creates a second contiguous buffer). Evaluate streaming hash + incremental write patterns before raising file-size limits.
 - `[COULD]` **Multi-file transfer** — target: post-v1.0.0. Queue multiple files and send them in one session.
 - `[COULD]` **Drag-and-drop** — target: post-v1.0.0. Accept files via drag-and-drop on the sender page in addition to the file picker.
 - `[COULD]` **Transfer speed indicator** — target: post-v1.0.0. Show current throughput (MB/s) during transfer.

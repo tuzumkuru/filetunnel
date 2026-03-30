@@ -43,16 +43,15 @@ The only server contact is a brief signaling handshake (SDP exchange via PeerJS)
 
 ## Local setup
 
-No build step required — open the files directly.
+No build step required, but run from a local/static server (do not use `file://` for QR sharing).
 
 ```bash
 git clone https://github.com/tuzumkuru/filetunnel.git
 cd filetunnel/src
-# open index.html in your browser, or serve with any static server:
 npx serve .
 ```
 
-For real-device testing, serve over HTTPS (required for WebRTC on mobile):
+For real-device testing, serve over HTTPS (required for WebRTC on mobile browsers and cross-device transfer):
 
 ```bash
 npx serve . --ssl-cert cert.pem --ssl-key key.pem
@@ -63,6 +62,18 @@ npx serve . --ssl-cert cert.pem --ssl-key key.pem
 ## Deployment
 
 Drop the three files (`index.html`, `style.css`, `app.js`) onto any static host (GitHub Pages, Netlify, Cloudflare Pages, etc.). HTTPS is required for WebRTC to work on mobile browsers.
+
+---
+
+## Telemetry
+
+FileTunnel uses Cloudflare Web Analytics (beacon script) for minimal product metrics.
+
+- Event tracked: transfer completion count
+- Not tracked by app code: file content, file name, file hash, and file bytes
+- Transfer payload remains peer-to-peer over WebRTC
+
+If you self-host and want zero telemetry, remove the Cloudflare beacon script and the `window.cfBeacon` event call in `src/index.html` and `src/app.js`.
 
 ---
 
