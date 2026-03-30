@@ -97,7 +97,7 @@ Both roles are played by the same individual in a single session.
 
 ### FR-3: File Transfer Engine
 - [MUST] FR-3.1: File data is transferred via WebRTC RTCDataChannel in binary mode. All data is DTLS-encrypted in transit — no party on the network can read the file contents.
-- [MUST] FR-3.2: The sender reads the entire file as an `ArrayBuffer` and sends it as a single message.
+- [MUST] FR-3.2: The sender reads the entire file as an `ArrayBuffer` and sends it in ordered binary chunks over the data channel.
 - [MUST] FR-3.3: The receiver accumulates the incoming `ArrayBuffer` and computes its SHA-256 hash on receipt.
 - [MUST] FR-3.4: On transfer complete, the receiver compares the received hash to the sender's hash and displays success or an integrity error.
 

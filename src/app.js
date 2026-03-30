@@ -13,14 +13,53 @@
 
   // ── About modal ─────────────────────────────────────────────────────
   var modal = document.getElementById('about-modal');
-  document.getElementById('about-open').addEventListener('click', function () {
-    modal.removeAttribute('hidden');
-  });
-  document.getElementById('about-close').addEventListener('click', function () {
+  var modalCloseButton = document.getElementById('about-close');
+  var lastFocusedElement = null;
+
+  function closeModal() {
     modal.setAttribute('hidden', '');
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    }
+  }
+
+  document.querySelectorAll('.about-open').forEach(function (el) {
+    el.addEventListener('click', function () {
+      lastFocusedElement = document.activeElement;
+      modal.removeAttribute('hidden');
+      modalCloseButton.focus();
+    });
   });
+
+  modalCloseButton.addEventListener('click', closeModal);
+
   modal.addEventListener('click', function (e) {
-    if (e.target === modal) modal.setAttribute('hidden', '');
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (modal.hasAttribute('hidden')) return;
+
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeModal();
+      return;
+    }
+
+    if (e.key === 'Tab') {
+      var focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (!focusables.length) return;
+      var first = focusables[0];
+      var last = focusables[focusables.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
   });
 
   var MAX_FILE_SIZE = 25 * 1024 * 1024; // 25 MB
@@ -123,7 +162,11 @@
       conn.on('data', function (data) {
         lastHeard = Date.now();
         if (typeof data === 'string') {
-          var msg = JSON.parse(data);
+          var msg = parseJsonMessage(data);
+          if (!msg) {
+            showReceiverError('Transfer error: received an invalid control message. Please try again.');
+            return;
+          }
           if (msg.type === 'ping') return;
 
           if (msg.type === 'meta') {
@@ -246,7 +289,11 @@
       });
       conn.on('data', function (data) {
         if (typeof data === 'string') {
-          var msg = JSON.parse(data);
+          var msg = parseJsonMessage(data);
+          if (!msg) {
+            showSenderError('Connection error: received an invalid response from receiver. Please retry.');
+            return;
+          }
           if (msg.type === 'ack') {
             hideSenderCards();
             document.getElementById('sender-done').removeAttribute('hidden');
@@ -360,6 +407,17 @@
   }
 
   // ── Shared helpers ───────────────────────────────────────────────────
+
+  function parseJsonMessage(raw) {
+    try {
+      var msg = JSON.parse(raw);
+      if (!msg || typeof msg !== 'object' || typeof msg.type !== 'string') return null;
+      return msg;
+    } catch (e) {
+      return null;
+    }
+  }
+
   function renderQR(url) {
     var qr = qrcode(0, 'M');
     qr.addData(url);
